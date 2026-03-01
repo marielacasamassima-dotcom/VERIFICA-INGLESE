@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>English Test – Irregular Verbs</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #0f172a;
+    --paper: #f8f6f0;
+    --accent: #e63946;
+    --accent2: #457b9d;
+    --accent3: #2a9d8f;
+    --gold: #e9c46a;
+    --light: #ffffff;
+    --muted: #6b7280;
+    --correct: #2a9d8f;
+    --wrong: #e63946;
+    --border: #d1cfc8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* BACKGROUND TEXTURE */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 10% 20%, rgba(69,123,157,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 90% 80%, rgba(42,157,143,0.07) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* ======= COVER SCREEN ======= */
+  #cover {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 60px 0;
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 2px;
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+  }
+
+  h1 span { color: var(--accent2); }
+
+  .subtitle {
+    font-size: 1.15rem;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 48px;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  .info-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; margin-bottom: 48px;
+  }
+
+  .info-card {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .info-card .num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem; font-weight: 800;
+    color: var(--accent2);
+    display: block; margin-bottom: 4px;
+  }
+
+  .info-card .lbl {
+    font-size: 0.78rem; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--muted);
+  }
+
+  .name-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin-bottom: 32px;
+  }
+
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  .field-group label {
+    font-size: 0.78rem; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--muted); font-weight: 500;
+  }
+
+  .field-group input {
+    border: 2px solid var(--border);
+    background: white;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    color: var(--ink);
+    transition: border-color .2s;
+    outline: none;
+  }
+
+  .field-group input:focus { border-color: var(--accent2); }
+
+  .btn-start {
+    background: var(--ink);
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    letter-spacing: 1px;
+    border: none; border-radius: 10px;
+    padding: 18px 48px;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+
+  .btn-start:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(15,23,42,0.18); }
+  .btn-start:active { transform: translateY(0); }
+
+  .btn-start svg { width: 18px; height: 18px; }
+
+  /* ======= TEST SCREEN ======= */
+  #test { display: none; padding-top: 40px; }
+
+  .progress-bar-wrap {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--paper);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0; margin-bottom: 40px;
+  }
+
+  .progress-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .progress-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; color: var(--muted);
+  }
+
+  #timer-display {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 800;
+    color: var(--accent);
+  }
+
+  .progress-track {
+    height: 5px; background: var(--border); border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent3));
+    border-radius: 10px;
+    transition: width .4s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+
+  /* SECTION */
+  .section-block {
+    margin-bottom: 60px;
+  }
+
+  .section-header {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .section-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem; font-weight: 800;
+    color: var(--border);
+    line-height: 1;
+    user-select: none;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem; font-weight: 700;
+    color: var(--ink);
+  }
+
+  .section-pts {
+    margin-left: auto;
+    font-size: 0.78rem; font-weight: 500;
+    color: var(--accent2);
+    background: rgba(69,123,157,0.1);
+    padding: 4px 12px; border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .section-instr {
+    font-size: 0.9rem; color: var(--muted);
+    margin-bottom: 28px;
+    padding-left: 0;
+    border-left: 3px solid var(--accent2);
+    padding-left: 12px;
+  }
+
+  /* TABLE SECTION */
+  .verb-table { width: 100%; border-collapse: collapse; }
+
+  .verb-table th {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
+    color: white;
+    background: var(--accent2);
+    padding: 12px 14px;
+    text-align: left;
+  }
+
+  .verb-table th:first-child { border-radius: 8px 0 0 0; }
+  .verb-table th:last-child { border-radius: 0 8px 0 0; }
+
+  .verb-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .verb-table tr:nth-child(even) td { background: rgba(255,255,255,0.5); }
+  .verb-table tr:last-child td { border-bottom: none; }
+
+  .verb-label {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.95rem;
+    color: var(--accent2);
+  }
+
+  .verb-table input[type="text"] {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--border);
+    background: transparent;
+    padding: 6px 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .2s;
+  }
+
+  .verb-table input[type="text"]:focus { border-color: var(--accent2); }
+
+  .verb-table input.correct { border-color: var(--correct) !important; background: rgba(42,157,143,0.08) !important; color: var(--correct); }
+  .verb-table input.wrong   { border-color: var(--wrong) !important; background: rgba(230,57,70,0.08) !important; color: var(--wrong); }
+
+  /* READING */
+  .reading-box {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-left: 5px solid var(--accent2);
+    border-radius: 0 12px 12px 0;
+    padding: 28px 28px 24px;
+    margin-bottom: 32px;
+    font-size: 0.97rem;
+    line-height: 1.75;
+    color: var(--ink);
+  }
+
+  .reading-box .story-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.1rem;
+    color: var(--accent2);
+    margin-bottom: 16px;
+    letter-spacing: -0.3px;
+  }
+
+  .reading-box p { margin-bottom: 10px; }
+  .reading-box p:last-child { margin-bottom: 0; }
+
+  .reading-box em {
+    font-style: italic;
+    color: var(--accent2);
+    font-weight: 500;
+  }
+
+  .q-block {
+    margin-bottom: 28px;
+  }
+
+  .q-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem; font-weight: 700;
+    color: var(--accent); letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+
+  .q-text {
+    font-size: 1rem; font-weight: 500;
+    margin-bottom: 10px; line-height: 1.5;
+  }
+
+  .q-block textarea {
+    width: 100%;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    resize: vertical; min-height: 72px;
+    outline: none;
+    transition: border-color .2s;
+    background: white;
+  }
+
+  .q-block textarea:focus { border-color: var(--accent2); }
+  .q-block textarea.correct { border-color: var(--correct); background: rgba(42,157,143,0.06); }
+  .q-block textarea.wrong   { border-color: var(--wrong);   background: rgba(230,57,70,0.06); }
+
+  /* FILL THE GAP */
+  .gap-sentence {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+    padding: 18px 20px;
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 14px;
+    font-size: 1rem; line-height: 1.6;
+    transition: border-color .3s;
+  }
+
+  .gap-sentence:focus-within { border-color: var(--accent2); }
+
+  .sent-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 0.85rem;
+    color: var(--accent2);
+    min-width: 26px;
+  }
+
+  .gap-input {
+    border: none;
+    border-bottom: 2.5px solid var(--accent2);
+    background: rgba(69,123,157,0.06);
+    border-radius: 4px 4px 0 0;
+    padding: 4px 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    color: var(--ink);
+    outline: none;
+    min-width: 160px; max-width: 220px;
+    transition: background .2s, border-color .2s;
+    text-align: center;
+  }
+
+  .gap-input:focus { background: rgba(69,123,157,0.12); }
+  .gap-input.correct { border-color: var(--correct) !important; background: rgba(42,157,143,0.1) !important; color: var(--correct); }
+  .gap-input.wrong   { border-color: var(--wrong) !important;   background: rgba(230,57,70,0.08) !important;  color: var(--wrong); }
+
+  .verb-hint {
+    font-size: 0.8rem; color: var(--muted);
+    font-style: italic;
+    background: rgba(0,0,0,0.04);
+    padding: 2px 8px; border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .neg-tag, .q-tag {
+    font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 4px;
+    margin-right: 4px;
+  }
+
+  .neg-tag { background: rgba(230,57,70,0.1); color: var(--accent); }
+  .q-tag   { background: rgba(233,196,106,0.2); color: #b08010; }
+
+  /* SUBMIT BUTTON */
+  .submit-wrap { text-align: center; margin-top: 48px; }
+
+  .btn-submit {
+    background: linear-gradient(135deg, var(--accent2), var(--accent3));
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    letter-spacing: 1px;
+    border: none; border-radius: 12px;
+    padding: 18px 56px;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(69,123,157,0.3); }
+
+  /* ======= RESULTS SCREEN ======= */
+  #results { display: none; padding-top: 60px; }
+
+  .result-hero { text-align: center; margin-bottom: 64px; }
+
+  .score-ring {
+    width: 160px; height: 160px;
+    margin: 0 auto 28px;
+    position: relative;
+  }
+
+  .score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+
+  .score-ring circle.bg { fill: none; stroke: var(--border); stroke-width: 8; }
+  .score-ring circle.fill {
+    fill: none; stroke-width: 8;
+    stroke-linecap: round;
+    stroke: var(--accent2);
+    stroke-dasharray: 0 440;
+    transition: stroke-dasharray 1.2s cubic-bezier(.4,0,.2,1) .3s;
+  }
+
+  .score-text-center {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+
+  .score-big {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.4rem; font-weight: 800;
+    color: var(--ink); line-height: 1;
+  }
+
+  .score-denom {
+    font-size: 0.85rem; color: var(--muted); font-weight: 500;
+  }
+
+  .result-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem; font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .result-grade {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    letter-spacing: 1px;
+    padding: 6px 20px; border-radius: 6px;
+    margin-bottom: 16px;
+  }
+
+  .result-message { color: var(--muted); font-size: 1rem; line-height: 1.6; max-width: 400px; margin: 0 auto; }
+
+  .score-breakdown {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; margin-bottom: 48px;
+  }
+
+  .break-card {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 20px 16px;
+    text-align: center;
+  }
+
+  .break-card .bc-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem; font-weight: 800;
+    display: block; margin-bottom: 4px;
+  }
+
+  .break-card .bc-lbl {
+    font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--muted);
+    display: block; margin-bottom: 8px;
+  }
+
+  .break-card .bc-bar {
+    height: 4px; background: var(--border); border-radius: 4px; overflow: hidden;
+  }
+
+  .break-card .bc-fill {
+    height: 100%; border-radius: 4px;
+    transition: width 1s .5s;
+  }
+
+  /* REVIEW */
+  .review-section { margin-bottom: 48px; }
+
+  .review-section h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 1rem;
+    text-transform: uppercase; letter-spacing: 2px;
+    color: var(--muted); margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .review-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 0.95rem; line-height: 1.5;
+  }
+
+  .review-item.ok   { background: rgba(42,157,143,0.08); }
+  .review-item.err  { background: rgba(230,57,70,0.07);  }
+
+  .review-icon { font-size: 1rem; margin-top: 1px; flex-shrink: 0; }
+
+  .review-item strong { font-weight: 600; }
+  .review-item .got   { color: var(--wrong); text-decoration: line-through; }
+  .review-item .ans   { color: var(--correct); font-weight: 600; }
+
+  .btn-retry {
+    background: white;
+    color: var(--ink);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem; font-weight: 700;
+    letter-spacing: 1px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 32px;
+    cursor: pointer;
+    transition: border-color .2s;
+    margin-top: 16px;
+  }
+
+  .btn-retry:hover { border-color: var(--accent2); }
+
+  .divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+  @media (max-width: 600px) {
+    .info-grid, .score-breakdown { grid-template-columns: 1fr 1fr; }
+    .name-row { grid-template-columns: 1fr; }
+    .verb-table th:nth-child(4), .verb-table td:nth-child(4) { display: none; }
+  }
+
+  /* SAVE PDF BUTTON */
+  .btn-save-pdf {
+    background: var(--accent);
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    letter-spacing: 1px;
+    border: none; border-radius: 10px;
+    padding: 18px 40px;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-right: 12px;
+  }
+  .btn-save-pdf:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(230,57,70,0.25); }
+
+  @media print {
+    body { background: white !important; }
+    body::before { display: none; }
+    #cover, #test, .btn-save-pdf, .btn-retry, .no-print { display: none !important; }
+    #results { display: block !important; padding-top: 0; }
+    .pdf-header { display: block !important; }
+    .score-breakdown, .result-hero { break-inside: avoid; }
+    .review-section { break-inside: avoid; }
+    .review-item { break-inside: avoid; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  .pdf-header {
+    display: none;
+    border-bottom: 3px solid var(--accent2);
+    padding-bottom: 16px;
+    margin-bottom: 32px;
+  }
+
+  .pdf-header-inner {
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+
+  .pdf-school {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  .pdf-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem; font-weight: 800;
+    color: var(--ink);
+  }
+
+  .pdf-meta {
+    font-size: 0.85rem; color: var(--muted);
+    text-align: right; line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== COVER ==================== -->
+<div class="wrapper" id="cover">
+  <span class="tag">English Verifica &nbsp;·&nbsp; A2+ / B1</span>
+  <h1>Irregular<br/><span>Verbs</span><br/>Test</h1>
+  <p class="subtitle">Three sections · Automatic score · Instant feedback. Complete all exercises before submitting.</p>
+
+  <div class="info-grid">
+    <div class="info-card"><span class="num">50</span><span class="lbl">Total Points</span></div>
+    <div class="info-card"><span class="num">3</span><span class="lbl">Sections</span></div>
+    <div class="info-card"><span class="num" id="timer-cover">60:00</span><span class="lbl">Time Limit</span></div>
+  </div>
+
+  <div class="name-row">
+    <div class="field-group">
+      <label>Your Full Name</label>
+      <input type="text" id="student-name" placeholder="e.g. Giulia Rossi"/>
+    </div>
+    <div class="field-group">
+      <label>Class</label>
+      <input type="text" id="student-class" placeholder="e.g. 3B"/>
+    </div>
+  </div>
+
+  <button class="btn-start" onclick="startTest()">
+    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 3l14 9-14 9V3z"/></svg>
+    Begin Test
+  </button>
+</div>
+
+<!-- ==================== TEST ==================== -->
+<div class="wrapper" id="test">
+
+  <div class="progress-bar-wrap">
+    <div class="progress-meta">
+      <span class="progress-label" id="prog-label">0 / 25 answered</span>
+      <span id="timer-display">60:00</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+
+  <!-- SECTION 1: TABLE -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Complete the Table</span>
+      <span class="section-pts">20 pts</span>
+    </div>
+    <p class="section-instr">Write the Simple Past and Past Participle for each verb.</p>
+
+    <table class="verb-table">
+      <thead>
+        <tr>
+          <th>Infinitive</th>
+          <th>Simple Past</th>
+          <th>Past Participle</th>
+          <th>Italiano</th>
+        </tr>
+      </thead>
+      <tbody id="verb-tbody">
+        <!-- injected by JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 2: READING -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Reading Comprehension</span>
+      <span class="section-pts">10 pts</span>
+    </div>
+    <p class="section-instr">Read the text carefully, then answer the questions below in complete sentences.</p>
+
+    <div class="reading-box">
+      <div class="story-title">My Busy Week</div>
+      <p>Last week was really busy for me. On Monday morning I <em>woke</em> up late, so I <em>ran</em> to school and didn't eat breakfast. My friend Tom <em>wrote</em> me a message during the lesson – he <em>told</em> me he had <em>bought</em> a new guitar at the weekend.</p>
+      <p>On Tuesday we had a maths test. I <em>studied</em> a lot, but I didn't do very well because I <em>forgot</em> some formulas. In the afternoon my mum <em>drove</em> me to the sports centre. I <em>swam</em> for an hour and then we <em>went</em> home.</p>
+      <p>On Wednesday I <em>met</em> my classmates at the library. We <em>read</em> two chapters of our project book and <em>spoke</em> about our ideas. On Thursday something great happened: my uncle <em>came</em> to visit and <em>brought</em> a huge pizza. We <em>ate</em> together and <em>watched</em> a funny film.</p>
+      <p>By Friday I was tired, but I <em>felt</em> happy because I had <em>finished</em> all my homework and had <em>sent</em> it to my teacher.</p>
+    </div>
+
+    <div id="reading-qs">
+      <!-- injected by JS -->
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 3: FILL THE GAP -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Fill in the Gaps</span>
+      <span class="section-pts">20 pts</span>
+    </div>
+    <p class="section-instr">Use the verb in brackets in the correct form. Pay attention to negative ❌ and question ❓ forms.</p>
+
+    <div id="gap-sentences">
+      <!-- injected by JS -->
+    </div>
+  </div>
+
+  <div class="submit-wrap">
+    <button class="btn-submit" onclick="submitTest()">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Submit Test
+    </button>
+  </div>
+</div>
+
+<!-- ==================== RESULTS ==================== -->
+<div class="wrapper" id="results">
+
+  <!-- Shown only when printing -->
+  <div class="pdf-header">
+    <div class="pdf-header-inner">
+      <div>
+        <div class="pdf-school">English Test &nbsp;·&nbsp; A2+ / B1</div>
+        <div class="pdf-title">Irregular Verbs — Result Sheet</div>
+      </div>
+      <div class="pdf-meta" id="pdf-meta-info"></div>
+    </div>
+  </div>
+
+  <div class="result-hero">
+    <div class="score-ring">
+      <svg viewBox="0 0 140 140">
+        <circle class="bg" cx="70" cy="70" r="60"/>
+        <circle class="fill" id="score-arc" cx="70" cy="70" r="60"/>
+      </svg>
+      <div class="score-text-center">
+        <span class="score-big" id="score-display">0</span>
+        <span class="score-denom">/ 50</span>
+      </div>
+    </div>
+    <div class="result-name" id="result-name"></div>
+    <div class="result-grade" id="result-grade"></div>
+    <p class="result-message" id="result-message"></p>
+  </div>
+
+  <div class="score-breakdown">
+    <div class="break-card">
+      <span class="bc-num" id="s1-score">0</span>
+      <span class="bc-lbl">Section 1</span>
+      <div class="bc-bar"><div class="bc-fill" id="s1-bar" style="background:var(--accent2); width:0%"></div></div>
+    </div>
+    <div class="break-card">
+      <span class="bc-num" id="s2-score">0</span>
+      <span class="bc-lbl">Section 2</span>
+      <div class="bc-bar"><div class="bc-fill" id="s2-bar" style="background:var(--accent3); width:0%"></div></div>
+    </div>
+    <div class="break-card">
+      <span class="bc-num" id="s3-score">0</span>
+      <span class="bc-lbl">Section 3</span>
+      <div class="bc-bar"><div class="bc-fill" id="s3-bar" style="background:var(--gold); width:0%"></div></div>
+    </div>
+  </div>
+
+  <div class="review-section" id="review-s1"></div>
+  <div class="review-section" id="review-s2"></div>
+  <div class="review-section" id="review-s3"></div>
+
+  <div style="text-align:center; margin-top:40px;">
+    <button class="btn-save-pdf" onclick="savePDF()">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17v3a1 1 0 001 1h16a1 1 0 001-1v-3M3 7l9-4 9 4"/></svg>
+      Salva / Stampa PDF
+    </button>
+    <button class="btn-retry" onclick="location.reload()">↩ Try Again</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const VERBS = [
+  { inf: "go",    sp: "went",   pp: "gone",    it: "andare"  },
+  { inf: "have",  sp: "had",    pp: "had",     it: "avere"   },
+  { inf: "do",    sp: "did",    pp: "done",    it: "fare"    },
+  { inf: "see",   sp: "saw",    pp: "seen",    it: "vedere"  },
+  { inf: "take",  sp: "took",   pp: "taken",   it: "prendere"},
+  { inf: "write", sp: "wrote",  pp: "written", it: "scrivere"},
+  { inf: "eat",   sp: "ate",    pp: "eaten",   it: "mangiare"},
+  { inf: "come",  sp: "came",   pp: "come",    it: "venire"  },
+  { inf: "buy",   sp: "bought", pp: "bought",  it: "comprare"},
+  { inf: "speak", sp: "spoke",  pp: "spoken",  it: "parlare" },
+];
+
+const READING_QS = [
+  { q: "Why did the writer run to school on Monday?",
+    keys: ["woke up late","late","woke","overslept"] },
+  { q: "What did Tom buy at the weekend?",
+    keys: ["guitar","new guitar"] },
+  { q: "How did the writer feel about the maths test result?",
+    keys: ["didn't do well","not well","poorly","disappointed","bad","didn't go well"] },
+  { q: "What did the writer do at the sports centre on Tuesday?",
+    keys: ["swam","swim","swimming","swam for an hour"] },
+  { q: "What did the uncle bring when he came to visit?",
+    keys: ["pizza","huge pizza"] },
+];
+
+const GAP_SENTENCES = [
+  { pre:"Yesterday Sarah ", hint:"(go)", post:" to the cinema with her friends.",
+    ans:["went"], type:"aff" },
+  { pre:"We ", hint:"(eat)", post:" all the sandwiches before the match started.",
+    ans:["ate","had eaten"], type:"aff" },
+  { pre:"My brother ", hint:"(write)", post:" a long email to his teacher last night.",
+    ans:["wrote"], type:"aff" },
+  { pre:"They ", hint:"(see)", post:" a great film last Saturday.",
+    ans:["saw"], type:"aff" },
+  { pre:"She ", hint:"(take)", post:" her umbrella because it was raining.",
+    ans:["took"], type:"aff" },
+  { pre:"He ", hint:"(not / come)", post:" to the party because he was ill.",
+    ans:["didn't come","did not come"], type:"neg" },
+  { pre:"We ", hint:"(not / have)", post:" enough time to visit the museum.",
+    ans:["didn't have","did not have"], type:"neg" },
+  { pre:"I ", hint:"(not / do)", post:" my homework yesterday. I completely forgot!",
+    ans:["didn't do","did not do"], type:"neg" },
+  { pre:"", hint:"(you / buy)", post:" anything special at the market? Yes, I did!",
+    ans:["did you buy"], type:"q" },
+  { pre:"", hint:"(she / speak)", post:" to the manager about the problem?",
+    ans:["did she speak"], type:"q" },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let timerInterval, secondsLeft = 60 * 60;
+let totalAnswerable = VERBS.length * 2 + READING_QS.length + GAP_SENTENCES.length;
+
+// ============================================================
+// BUILD UI
+// ============================================================
+function buildVerbTable() {
+  const tbody = document.getElementById('verb-tbody');
+  VERBS.forEach((v, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="verb-label">to ${v.inf}</span></td>
+      <td><input type="text" id="sp-${i}" placeholder="simple past…" oninput="updateProgress()"/></td>
+      <td><input type="text" id="pp-${i}" placeholder="past participle…" oninput="updateProgress()"/></td>
+      <td><input type="text" id="it-${i}" placeholder="traduzione…" oninput="updateProgress()"/></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function buildReadingQs() {
+  const wrap = document.getElementById('reading-qs');
+  READING_QS.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'q-block';
+    div.innerHTML = `
+      <div class="q-label">Question ${i+1}</div>
+      <div class="q-text">${q.q}</div>
+      <textarea id="rq-${i}" placeholder="Write your answer here…" oninput="updateProgress()"></textarea>
+    `;
+    wrap.appendChild(div);
+  });
+}
+
+function buildGaps() {
+  const wrap = document.getElementById('gap-sentences');
+  GAP_SENTENCES.forEach((s, i) => {
+    const tag = s.type === 'neg'
+      ? '<span class="neg-tag">❌ Negative</span>'
+      : s.type === 'q'
+      ? '<span class="q-tag">❓ Question</span>'
+      : '';
+    const div = document.createElement('div');
+    div.className = 'gap-sentence';
+    div.innerHTML = `
+      <span class="sent-num">${i+1}.</span>
+      ${tag}
+      <span>${s.pre}</span>
+      <input type="text" class="gap-input" id="gap-${i}" placeholder="…" oninput="updateProgress()"/>
+      <span class="verb-hint">${s.hint}</span>
+      <span>${s.post}</span>
+    `;
+    wrap.appendChild(div);
+  });
+}
+
+// ============================================================
+// TIMER
+// ============================================================
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const ss = s % 60;
+  return `${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    const d = document.getElementById('timer-display');
+    d.textContent = formatTime(secondsLeft);
+    if (secondsLeft <= 300) d.style.color = 'var(--accent)';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); submitTest(); }
+  }, 1000);
+}
+
+// ============================================================
+// PROGRESS
+// ============================================================
+function updateProgress() {
+  let filled = 0;
+  VERBS.forEach((_, i) => {
+    if (document.getElementById(`sp-${i}`).value.trim()) filled++;
+    if (document.getElementById(`pp-${i}`).value.trim()) filled++;
+  });
+  READING_QS.forEach((_, i) => {
+    if (document.getElementById(`rq-${i}`).value.trim()) filled++;
+  });
+  GAP_SENTENCES.forEach((_, i) => {
+    if (document.getElementById(`gap-${i}`).value.trim()) filled++;
+  });
+  const pct = Math.round(filled / totalAnswerable * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = `${filled} / ${totalAnswerable} answered`;
+}
+
+// ============================================================
+// START
+// ============================================================
+function startTest() {
+  const name = document.getElementById('student-name').value.trim();
+  if (!name) { alert('Please enter your name before starting.'); return; }
+  document.getElementById('cover').style.display = 'none';
+  document.getElementById('test').style.display = 'block';
+  startTimer();
+}
+
+// ============================================================
+// NORMALIZE
+// ============================================================
+function norm(s) { return s.toLowerCase().replace(/[''`]/g, "'").replace(/\s+/g, ' ').trim(); }
+
+// ============================================================
+// SUBMIT
+// ============================================================
+function submitTest() {
+  clearInterval(timerInterval);
+  if (!document.getElementById('student-name').value.trim()) {
+    document.getElementById('cover').style.display = 'none';
+  }
+
+  let s1 = 0, s2 = 0, s3 = 0;
+  const rev1 = [], rev2 = [], rev3 = [];
+
+  // SECTION 1
+  VERBS.forEach((v, i) => {
+    const spEl = document.getElementById(`sp-${i}`);
+    const ppEl = document.getElementById(`pp-${i}`);
+
+    const spOk = norm(spEl.value) === norm(v.sp);
+    const ppOk = norm(ppEl.value) === norm(v.pp);
+
+    if (spOk) { s1++; spEl.classList.add('correct'); }
+    else { spEl.classList.add('wrong'); }
+
+    if (ppOk) { s1++; ppEl.classList.add('correct'); }
+    else { ppEl.classList.add('wrong'); }
+
+    rev1.push({
+      label: `to ${v.inf}`,
+      sp: { got: spEl.value, ok: spOk, ans: v.sp },
+      pp: { got: ppEl.value, ok: ppOk, ans: v.pp }
+    });
+
+    spEl.disabled = true; ppEl.disabled = true;
+    const itEl = document.getElementById(`it-${i}`);
+    if (itEl) itEl.disabled = true;
+  });
+
+  // SECTION 2 — keyword matching
+  READING_QS.forEach((q, i) => {
+    const ta = document.getElementById(`rq-${i}`);
+    const val = norm(ta.value);
+    const ok = q.keys.some(k => val.includes(norm(k)));
+    if (ok) { s2 += 2; ta.classList.add('correct'); }
+    else { ta.classList.add('wrong'); }
+    rev2.push({ q: q.q, got: ta.value, ok, ans: q.keys[0] });
+    ta.disabled = true;
+  });
+
+  // SECTION 3
+  GAP_SENTENCES.forEach((s, i) => {
+    const inp = document.getElementById(`gap-${i}`);
+    const ok = s.ans.some(a => norm(inp.value) === norm(a));
+    if (ok) { s3 += 2; inp.classList.add('correct'); }
+    else { inp.classList.add('wrong'); }
+    rev3.push({ pre: s.pre, hint: s.hint, post: s.post, got: inp.value, ok, ans: s.ans[0] });
+    inp.disabled = true;
+  });
+
+  const total = s1 + s2 + s3;
+
+  // Show results
+  document.getElementById('test').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+
+  const name = document.getElementById('student-name').value.trim();
+  document.getElementById('result-name').textContent = name || 'Student';
+
+  document.getElementById('score-display').textContent = total;
+  document.getElementById('s1-score').textContent = `${s1}/20`;
+  document.getElementById('s2-score').textContent = `${s2}/10`;
+  document.getElementById('s3-score').textContent = `${s3}/20`;
+
+  setTimeout(() => {
+    document.getElementById('s1-bar').style.width = (s1/20*100)+'%';
+    document.getElementById('s2-bar').style.width = (s2/10*100)+'%';
+    document.getElementById('s3-bar').style.width = (s3/20*100)+'%';
+    const pct = total / 50;
+    const circ = 2 * Math.PI * 60;
+    document.getElementById('score-arc').style.strokeDasharray = `${circ * pct} ${circ}`;
+  }, 200);
+
+  // Grade
+  let grade, gradeColor, msg;
+  if (total >= 45) { grade = "Excellent! 🌟"; gradeColor = "rgba(42,157,143,0.15)"; msg = "Outstanding work! You have a very strong command of irregular verbs."; }
+  else if (total >= 38) { grade = "Very Good 👏"; gradeColor = "rgba(69,123,157,0.12)"; msg = "Great job! You clearly know your irregular verbs well."; }
+  else if (total >= 28) { grade = "Good 🙂"; gradeColor = "rgba(233,196,106,0.2)"; msg = "Solid work! Review the verbs you missed and you'll be even better."; }
+  else if (total >= 18) { grade = "Needs Practice 📚"; gradeColor = "rgba(230,57,70,0.1)"; msg = "Keep practising! Focus on the verbs you got wrong in the review below."; }
+  else { grade = "Keep Studying 💪"; gradeColor = "rgba(230,57,70,0.12)"; msg = "Don't give up! Study the irregular verb list and try again."; }
+
+  const gradeEl = document.getElementById('result-grade');
+  gradeEl.textContent = grade;
+  gradeEl.style.background = gradeColor;
+  document.getElementById('result-message').textContent = msg;
+
+  // REVIEW
+  buildReview('review-s1', 'Section 1 – Verb Table', rev1.flatMap(r => [
+    { ok: r.sp.ok, text: `<strong>to ${r.label}</strong> — Simple Past: <span class="${r.sp.ok?'ans':'got'}">${r.sp.got||'(blank)'}</span>${!r.sp.ok?' → correct: <span class="ans">'+r.sp.ans+'</span>':''}` },
+    { ok: r.pp.ok, text: `<strong>to ${r.label}</strong> — Past Participle: <span class="${r.pp.ok?'ans':'got'}">${r.pp.got||'(blank)'}</span>${!r.pp.ok?' → correct: <span class="ans">'+r.pp.ans+'</span>':''}` },
+  ]));
+
+  buildReview('review-s2', 'Section 2 – Reading', rev2.map(r => ({
+    ok: r.ok,
+    text: `<strong>${r.q}</strong><br/><span class="${r.ok?'ans':'got'}">${r.got||'(blank)'}</span>${!r.ok?'<br/>Key word expected: <span class="ans">'+r.ans+'</span>':''}`
+  })));
+
+  buildReview('review-s3', 'Section 3 – Fill the Gaps', rev3.map(r => ({
+    ok: r.ok,
+    text: `<strong>${r.hint}</strong> — ${r.pre}<span class="${r.ok?'ans':'got'}">${r.got||'(blank)'}</span>${r.post}${!r.ok?' → correct: <span class="ans">'+r.ans+'</span>':''}`
+  })));
+}
+
+function buildReview(id, title, items) {
+  const wrap = document.getElementById(id);
+  wrap.innerHTML = `<h3>${title}</h3>`;
+  items.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'review-item ' + (item.ok ? 'ok' : 'err');
+    div.innerHTML = `
+      <span class="review-icon">${item.ok ? '✅' : '❌'}</span>
+      <span>${item.text}</span>
+    `;
+    wrap.appendChild(div);
+  });
+}
+
+// ============================================================
+// SAVE PDF
+// ============================================================
+function savePDF() {
+  const name = document.getElementById('student-name').value.trim() || 'Student';
+  const cls  = document.getElementById('student-class').value.trim();
+  const score = document.getElementById('score-display').textContent;
+  const s1 = document.getElementById('s1-score').textContent;
+  const s2 = document.getElementById('s2-score').textContent;
+  const s3 = document.getElementById('s3-score').textContent;
+  const now = new Date().toLocaleString('it-IT', { dateStyle:'short', timeStyle:'short' });
+
+  // Populate the print-only header
+  document.getElementById('pdf-meta-info').innerHTML =
+    `<strong>${name}</strong>${cls ? ' &nbsp;·&nbsp; Classe ' + cls : ''}<br/>` +
+    `Data: ${now}<br/>` +
+    `Punteggio: <strong>${score} / 50</strong> &nbsp;|&nbsp; S1: ${s1} &nbsp;S2: ${s2} &nbsp;S3: ${s3}`;
+
+  window.print();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+buildVerbTable();
+buildReadingQs();
+buildGaps();
+</script>
+</body>
+</html>
